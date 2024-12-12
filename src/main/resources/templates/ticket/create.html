@@ -1,0 +1,42 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+
+<div th:replace="~{fragments/fragments :: head}"></div>
+
+<title>Tickets</title>
+</head>
+
+<body>
+	
+	<form>
+		<div th:replace="~{fragments/navbar :: navbar('ticket')}"></div>
+			<div class="container py-3">
+				<h2>Create Ticket</h2>		
+			</div>
+			
+			<div class="container py-3">
+				<div class="mb-3">
+					<label for="operator_id" class="form-label">Choose the operator:</label>
+					<select id="operator_id" class="form-select" aria-label="Select Operator">
+					  <option selected>Select Operator</option>
+					  <option value="1">Operator1</option>
+					  <option value="2">Operator2</option>
+					  <option value="3">Operator3</option>
+					</select>
+				</div>
+				<div class="mb-3">
+				  <label for="code" class="form-label">Insert code</label>
+		  		  <input type="text" class="form-control" id="code" placeholder="#AB123g!?">
+				</div>
+				
+				<button type="submit" class="btn btn-primary">Send</button>
+				
+			</div>	
+	</form>
+	
+	<div th:replace="~{fragments/fragments :: footer}"></div>
+	
+	<div th:replace="~{fragments/fragments :: scripts}"></div>
+</body>
+</html>
