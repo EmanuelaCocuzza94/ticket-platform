@@ -13,10 +13,10 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-
 import it.ticket.platform.model.Category;
 import it.ticket.platform.model.Role;
 import it.ticket.platform.model.Ticket;
@@ -92,4 +92,60 @@ public class TicketController {
 		
 		return "redirect:/ticket";
 	};
+	
+	@GetMapping("/show/{id}")
+	public String show(@PathVariable(name = "id")Long id, Model model) {
+		
+		Optional<Ticket> ticket = ticketRepository.findById(id);
+		
+		if(ticket.isPresent()) {
+			model.addAttribute("operators", userRepository.findByIsAvailableAndRole(true, Role.OPERATOR));
+			model.addAttribute("categories", categoryRepository.findAll());
+	        model.addAttribute("ticketStatus", Arrays.asList(TicketStatus.values()));
+	        
+			model.addAttribute("ticket", ticket.get());
+		}
+		
+		return "ticket/show";
+	}
+	
+	@GetMapping("/edit/{id}")
+	public String edit(@PathVariable(name = "id") Long id, Model model) {
+
+		Optional<Ticket> ticket = ticketRepository.findById(id);
+		
+		if(ticket.isPresent()) {
+			model.addAttribute("ticket", ticket.get());
+			
+			model.addAttribute("operators", userRepository.findByIsAvailableAndRole(true, Role.OPERATOR));
+			model.addAttribute("categories", categoryRepository.findAll());
+	        model.addAttribute("ticketStatus", Arrays.asList(TicketStatus.values()));
+		}
+		
+		return "ticket/edit";
+	}
+	
+	@PostMapping("/edit/{id}")
+	public String update(@Valid @ModelAttribute(name = "ticket") Ticket ticket, BindingResult bindingResult,
+			Model model) {
+		
+		if(bindingResult.hasErrors()) {
+			model.addAttribute("operators", userRepository.findByIsAvailableAndRole(true, Role.OPERATOR));
+			model.addAttribute("categories", categoryRepository.findAll());
+	        model.addAttribute("ticketStatus", Arrays.asList(TicketStatus.values()));
+			
+			return "ticket/edit";
+		}
+		
+		model.addAttribute("updatedAt", LocalDateTime.now());
+		ticketRepository.save(ticket);
+		return "redirect:/ticket";
+	}
+	
+	@PostMapping("/delete/{id}")
+	public String delete(@PathVariable(name = "id") Long id) {
+		ticketRepository.deleteById(id);
+		return "redirect:/ticket";
+	}
+	
 }

@@ -28,7 +28,7 @@
 					<form method="get" th:action="@{/ticket}" >
 						<div class="input-group">
 							<input th:value="${title}" type="search" name="title"
-								placeholder="Search pizza" class="form-control">
+								placeholder="Search ticket" class="form-control">
 							<button class="btn btn-primary" type="submit">
 								<i class="fas fa-search"></i>
 							</button>
@@ -41,6 +41,9 @@
 			    <tr>
 			      <th scope="col">Id</th>
 			      <th scope="col">Code</th>
+				  <th scope="col">Title</th>
+				  <th scope="col">Operator</th>
+				  <th scope="col">Category</th>
 			      <th scope="col">Status</th>
 			      <th scope="col">Action</th>
 			    </tr>
@@ -53,13 +56,31 @@
 			      <td>
 					<p th:text="${ticket.code}"></p>
 				  </td>
+				  <td>
+  					<p th:text="${ticket.title}"></p>
+  				  </td>
+				  <td>
+  					<p th:text="${ticket.user.profile.getFullName}"></p>
+  				  </td>
+				  <td>
+  					<p th:text="${ticket.category.name}"></p>
+  				  </td>
 			      <td>
 					<p th:text="${ticket.status}"></p>
 				  </td>
 				  <td>
-  					<i class="fa-solid fa-eye" aria-label="show"></i>
-  					<i class="fa-solid fa-pen-to-square" aria-label="edit"></i>
-  					<i class="fa-solid fa-trash" aria-label="delete"></i>
+					<div class="d-flex">
+					<a th:href="@{|/ticket/show/${ticket.id}|}" class="btn btn-primary m-2"><i class="fa-solid fa-eye" aria-label="show"></i></i></a>
+					<a th:href="@{|/ticket/edit/${ticket.id}|}" sec:authorize="hasAuthority('ADMIN')"
+						class="btn btn-primary m-2"><i class="fas fa-edit"></i></a>
+					<form th:action="@{|/ticket/delete/${ticket.id}|}" sec:authorize="hasAuthority('ADMIN')"
+							method="post" class="m-2"> 
+						<button class="btn btn-danger" type="submit" 
+							onclick="return confirm('Are you sure?');">
+							<i class="fa-solid fa-trash" aria-label="delete"></i>
+						</button>
+					</form>
+  					
   				  </td>
 			    </tr>
 			  </tbody>

@@ -63,9 +63,43 @@ public class TicketPlatformApplication {
                 userRepository.save(operator);
                 profileRepository.save(operatorProfile);
                 
+                User operator2 = new User(
+            			LocalDateTime.now(),
+            			"operator2@operator2.test",
+            			true, encodedPassword,
+            			LocalDateTime.now(),
+            			"operator2",
+            			Role.OPERATOR
+            			);
+        		Profile operator2Profile = new Profile("Pluto", "Row", operator2);
+                userRepository.save(operator2);
+                profileRepository.save(operator2Profile);
+                
+                
+                User operator3 = new User(
+            			LocalDateTime.now(),
+            			"operator3@operator3.test",
+            			true, encodedPassword,
+            			LocalDateTime.now(),
+            			"operator3",
+            			Role.OPERATOR
+            			);
+        		Profile operator3Profile = new Profile("Caglio", "Rew", operator3);
+                userRepository.save(operator3);
+                profileRepository.save(operator3Profile);
+                
+                User operator4 = new User(
+            			LocalDateTime.now(),
+            			"operator4@operator4.test",
+            			true, encodedPassword,
+            			LocalDateTime.now(),
+            			"operator4",
+            			Role.OPERATOR
+            			);
+        		Profile operator4Profile = new Profile("Sempronio", "Bit", operator4);
+                userRepository.save(operator4);
+                profileRepository.save(operator4Profile);
             }
-            
-            
             
             if (categoryRepository.count() == 0) {
         		Category category1 = new Category("Servizi");
