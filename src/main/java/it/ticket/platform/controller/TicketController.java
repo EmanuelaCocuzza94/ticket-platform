@@ -42,13 +42,18 @@ public class TicketController {
 	private CategoryRepository categoryRepository;
 	
 	@GetMapping
-	public String index(@RequestParam(name = "title", required = false) String code, 
+	public String index(@RequestParam(name = "title", required = false) String keyword, 
 			Model model) {
 		
 		
-		List<Ticket> allTickets = ticketRepository.findAll();
+		List<Ticket> allTickets;
 		
-		System.out.println("call index page " + allTickets);
+		if(keyword != null && !keyword.isBlank()) {
+			model.addAttribute("keyword", keyword);
+			allTickets = ticketRepository.findByTitleContaining(keyword);
+		} else {
+			allTickets = ticketRepository.findAll();
+		}
 		
 		// aggiunge all ticket/index.html le variabili definite in addAttribute;
 		model.addAttribute("tickets", allTickets);
@@ -87,7 +92,7 @@ public class TicketController {
 			return "ticket/create";
 		}
 		
-		model.addAttribute("createdAt", LocalDateTime.now());
+		//model.addAttribute("createdAt", LocalDateTime.now());
 		ticketRepository.save(ticket);
 		
 		return "redirect:/ticket";
@@ -130,6 +135,7 @@ public class TicketController {
 			Model model) {
 		
 		if(bindingResult.hasErrors()) {
+			model.addAttribute("ticket", ticket);
 			model.addAttribute("operators", userRepository.findByIsAvailableAndRole(true, Role.OPERATOR));
 			model.addAttribute("categories", categoryRepository.findAll());
 	        model.addAttribute("ticketStatus", Arrays.asList(TicketStatus.values()));
@@ -137,7 +143,7 @@ public class TicketController {
 			return "ticket/edit";
 		}
 		
-		model.addAttribute("updatedAt", LocalDateTime.now());
+		//model.addAttribute("updatedAt", LocalDateTime.now());
 		ticketRepository.save(ticket);
 		return "redirect:/ticket";
 	}

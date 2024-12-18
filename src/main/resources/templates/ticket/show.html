@@ -16,7 +16,7 @@
 			<div class="row">
 				<div class="col-md-4">
 					<label class="form-label" for="user">Operator</label>
-		            <select class="form-control" id="user" name="user" th:field="*{user}">
+		            <select class="form-control" id="user" name="user" th:field="*{user}" disabled>
 						<option value="" disabled selected>Select a user</option>
 			            <option th:each="item : ${operators}" th:value="${item.id}" th:text="${item.profile.getFullName}"></option>
 		            </select>
@@ -30,7 +30,7 @@
 				</div>
 				<div class="col-md-4">
 					<label class="form-label" for="category">Category</label>
-		            <select class="form-control" id="category" name="category" th:field="*{category}">
+		            <select class="form-control" id="category" name="category" th:field="*{category}" disabled>
 						<option value="" disabled selected>Select category</option>
 			            <option th:each="item : ${categories}" th:value="${item.id}" th:text="${item.name}"></option>
 		            </select>
@@ -44,7 +44,7 @@
 				</div>
 				<div class="col-md-4">
 					<label class="form-label" for="status">Status</label>
-					<select class="form-control" id="status" name="status" th:field="*{status}">
+					<select class="form-control" id="status" name="status" th:field="*{status}" disabled>
 						<option value="" disabled selected>Select Ticket Status</option>
 			            <option th:each="item : ${ticketStatus}" th:value="${item}" th:text="${item}"></option>
 		            </select>
@@ -60,7 +60,7 @@
 				<div class="col-md-8">
 					<label class="form-label" for="title">Title</label>
 					<input
-						th:field="${ticket.title}" type="text" name="title"
+						th:field="${ticket.title}" type="text" name="title" disabled
 						placeholder="Title" class="form-control" th:errorClass="is-invalid">
 					<div>
 						<ul>
@@ -74,7 +74,7 @@
 					<input
 						th:field="${ticket.code}" type="text" name="code"
 						placeholder="Ticket Code" class="form-control"
-						th:errorClass="is-invalid">
+						th:errorClass="is-invalid" disabled>
 					<div>
 						<ul>
 							<li th:each="error : ${#fields.errors('code')}"
@@ -88,7 +88,7 @@
 					<label class="form-label" for="description">Description</label>
 					<textarea rows="3" th:field="${ticket.description}"
 						name="description" placeholder="Description" class="form-control"
-						th:errorClass="is-invalid">
+						th:errorClass="is-invalid" disabled>
 					</textarea>
 					<div>
 						<ul>
@@ -99,6 +99,8 @@
 				</div>
 			</div>
 
+			<a th:href="@{|/ticket/edit/${ticket.id}|}" sec:authorize="hasAuthority('ADMIN')"
+				class="btn btn-primary m-2">Edit Ticket</a>
 	</div>
 	
 	<div th:replace="~{fragments/fragments :: footer}"></div>

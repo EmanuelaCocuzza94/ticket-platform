@@ -24,9 +24,9 @@
 					</li>
 					<li class="nav-item" sec:authorize="hasAuthority('ADMIN')">
 						<a class="nav-link active"
-							aria-current="page" th:href="@{/user}"
-							th:classappend="${pagename == 'user'} ? active : not-active">
-							Users 
+							aria-current="page" th:href="@{/profile}"
+							th:classappend="${pagename == 'profile'} ? active : not-active">
+							Profile 
 						</a>
 					</li>
 				</ul>

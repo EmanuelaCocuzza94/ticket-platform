@@ -3,6 +3,9 @@ package it.ticket.platform.model;
 import java.time.LocalDateTime;
 import java.util.Set;
 
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -61,12 +64,14 @@ public class Ticket {
     private Category category;
 
     @ManyToOne
-	@JoinColumn(name = "created_by", nullable = false)
+	@JoinColumn(name = "created_by", nullable = false, updatable = false)
 	private User createdBy;
     
-    @Column(nullable = false)
+    @CreationTimestamp
+    @Column(nullable = false, updatable = false)
     private LocalDateTime createdAt;
 
+    @UpdateTimestamp
 	@Column(nullable = true)
     private LocalDateTime updatedAt;
 	
