@@ -20,10 +20,15 @@ import jakarta.validation.constraints.NotBlank;
 @Table(name="Tickets")
 public class Ticket {
 	
+	
 	/*
 	 * START DEFINITION COLUMNS
 	 */
 	
+	public Ticket() {
+		this.createdAt = LocalDateTime.now();
+	}
+
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Id
 	private Long id;
@@ -144,6 +149,30 @@ public class Ticket {
 
 	public void setCategory(Category category) {
 		this.category = category;
+	}
+
+	public User getCreatedBy() {
+		return createdBy;
+	}
+
+	public void setCreatedBy(User createdBy) {
+		this.createdBy = createdBy;
+	}
+
+	public LocalDateTime getCreatedAt() {
+		return createdAt;
+	}
+
+	public void setCreatedAt(LocalDateTime createdAt) {
+		this.createdAt = createdAt;
+	}
+
+	public LocalDateTime getUpdatedAt() {
+		return updatedAt;
+	}
+
+	public void setUpdatedAt(LocalDateTime updatedAt) {
+		this.updatedAt = updatedAt;
 	}
 	
 	

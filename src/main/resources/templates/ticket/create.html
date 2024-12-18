@@ -9,31 +9,105 @@
 
 <body>
 	
-	<form>
-		<div th:replace="~{fragments/navbar :: navbar('ticket')}"></div>
-			<div class="container py-3">
-				<h2>Create Ticket</h2>		
+	<div th:replace="~{fragments/navbar :: navbar('ticket')}"></div>
+	<div class="container py-3">Add new Ticket</div>
+	<div class="container py-3">
+		<form id="ticket-form" method="post" th:action="@{/ticket/store}"
+			th:object="${ticket}">
+			<input type="hidden" name="createdBy" th:value="${guest.id}" />
+			<div class="row">
+				<div class="col-md-4">
+					<label class="form-label" for="user">Operator</label>
+		            <select class="form-control" id="user" name="user" th:field="*{user}">
+						<option value="" disabled selected>Select a user</option>
+			            <option th:each="item : ${operators}" th:value="${item.id}" th:text="${item.profile.getFullName}"></option>
+		            </select>
+					
+					<div>
+						<ul>
+							<li th:each="error : ${#fields.errors('user')}"
+								th:text="${error}"></li>
+						</ul>
+					</div>
+				</div>
+				<div class="col-md-4">
+					<label class="form-label" for="category">Category</label>
+		            <select class="form-control" id="category" name="category" th:field="*{category}">
+						<option value="" disabled selected>Select category</option>
+			            <option th:each="item : ${categories}" th:value="${item.id}" th:text="${item.name}"></option>
+		            </select>
+					
+					<div>
+						<ul>
+							<li th:each="error : ${#fields.errors('category')}"
+								th:text="${error}"></li>
+						</ul>
+					</div>
+				</div>
+				<div class="col-md-4">
+					<label class="form-label" for="status">Status</label>
+					<select class="form-control" id="status" name="status" th:field="*{status}">
+						<option value="" disabled selected>Select Ticket Status</option>
+			            <option th:each="item : ${ticketStatus}" th:value="${item}" th:text="${item}"></option>
+		            </select>
+					<div>
+						<ul>
+							<li th:each="error : ${#fields.errors('status')}"
+								th:text="${error}"></li>
+						</ul>
+					</div>
+				</div>
 			</div>
-			
-			<div class="container py-3">
-				<div class="mb-3">
-					<label for="operator_id" class="form-label">Choose the operator:</label>
-					<select id="operator_id" class="form-select" aria-label="Select Operator">
-					  <option selected>Select Operator</option>
-					  <option value="1">Operator1</option>
-					  <option value="2">Operator2</option>
-					  <option value="3">Operator3</option>
-					</select>
+			<div class="row">
+				<div class="col-md-8">
+					<label class="form-label" for="title">Title</label>
+					<input
+						th:field="${ticket.title}" type="text" name="title"
+						placeholder="Title" class="form-control" th:errorClass="is-invalid">
+					<div>
+						<ul>
+							<li th:each="error : ${#fields.errors('title')}"
+								th:text="${error}"></li>
+						</ul>
+					</div>
 				</div>
-				<div class="mb-3">
-				  <label for="code" class="form-label">Insert code</label>
-		  		  <input type="text" class="form-control" id="code" placeholder="#AB123g!?">
+				<div class="col-md-4">
+					<label class="form-label" for="code">Code</label>
+					<input
+						th:field="${ticket.code}" type="text" name="code"
+						placeholder="Ticket Code" class="form-control"
+						th:errorClass="is-invalid">
+					<div>
+						<ul>
+							<li th:each="error : ${#fields.errors('code')}"
+								th:text="${error}"></li>
+						</ul>
+					</div>
 				</div>
-				
-				<button type="submit" class="btn btn-primary">Send</button>
-				
-			</div>	
-	</form>
+			</div>
+			<div class="row">
+				<div class="col-md-12">
+					<label class="form-label" for="description">Description</label>
+					<textarea rows="3" th:field="${ticket.description}"
+						name="description" placeholder="Description" class="form-control"
+						th:errorClass="is-invalid">
+					</textarea>
+					<div>
+						<ul>
+							<li th:each="error : ${#fields.errors('description')}"
+								th:text="${error}"></li>
+						</ul>
+					</div>
+				</div>
+			</div>
+
+
+			<div class="row">
+				<button class="btn btn-primary" type="submit">Save</button>
+			</div>
+		</form>
+
+	</div>
 	
 	<div th:replace="~{fragments/fragments :: footer}"></div>
 	

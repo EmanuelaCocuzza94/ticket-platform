@@ -14,6 +14,14 @@ import jakarta.validation.constraints.NotBlank;
 @Entity
 @Table(name="Categories")
 public class Category {
+	
+	public Category() {
+	}
+	
+	public Category(String name) {
+		this.setName(name);
+	}
+
 	/*
 	 * START DEFINITION COLUMNS
 	 */

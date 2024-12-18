@@ -13,6 +13,16 @@ import jakarta.persistence.Table;
 @Table(name="profiles")
 public class Profile {
 	
+	
+	public Profile() {
+	}
+
+	public Profile(String firstname, String lastname, User user) {
+        this.setFirstname(firstname);
+        this.setLastname(lastname);
+        this.setUser(user);
+    }
+	
 	/*
 	 * START DEFINITION COLUMNS
 	 */
@@ -42,7 +52,11 @@ public class Profile {
     /*
      * END RELATIONS
      */
-
+    public String getFullName() {
+		return this.getFirstname() + " " + this.getLastname();
+    }
+    
+    
 	public Long getId() {
 		return id;
 	}
@@ -74,7 +88,5 @@ public class Profile {
 	public void setUser(User user) {
 		this.user = user;
 	}
-
-    // TODO Getters and Setters
     
 }
