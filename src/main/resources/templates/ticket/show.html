@@ -4,103 +4,102 @@
 
 <div th:replace="~{fragments/fragments :: head}"></div>
 
-<title>Tickets</title>
+<title>Show Ticket</title>
 </head>
 
 <body>
 	
 	<div th:replace="~{fragments/navbar :: navbar('ticket')}"></div>
 	<div class="container py-3" th:object="${ticket}">
-		<h1 th:text="${ticket.title}"></h1>
+		<h2>Show Ticket</h2>
+		<div class="row">
+			<div class="col-md-4">
+				<label class="form-label" for="user">Operator</label>
+	            <select class="form-control" id="user" name="user" th:field="*{user}" disabled>
+					<option value="" disabled selected>Select a user</option>
+		            <option th:each="item : ${operators}" th:value="${item.id}" th:text="${item.profile.getFullName}"></option>
+	            </select>
+				
+				<div>
+					<ul>
+						<li th:each="error : ${#fields.errors('user')}"
+							th:text="${error}"></li>
+					</ul>
+				</div>
+			</div>
+			<div class="col-md-4">
+				<label class="form-label" for="category">Category</label>
+	            <select class="form-control" id="category" name="category" th:field="*{category}" disabled>
+					<option value="" disabled selected>Select category</option>
+		            <option th:each="item : ${categories}" th:value="${item.id}" th:text="${item.name}"></option>
+	            </select>
+				
+				<div>
+					<ul>
+						<li th:each="error : ${#fields.errors('category')}"
+							th:text="${error}"></li>
+					</ul>
+				</div>
+			</div>
+			<div class="col-md-4">
+				<label class="form-label" for="status">Status</label>
+				<select class="form-control" id="status" name="status" th:field="*{status}" disabled>
+					<option value="" disabled selected>Select Ticket Status</option>
+		            <option th:each="item : ${ticketStatus}" th:value="${item}" th:text="${item}"></option>
+	            </select>
+				<div>
+					<ul>
+						<li th:each="error : ${#fields.errors('status')}"
+							th:text="${error}"></li>
+					</ul>
+				</div>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-md-8">
+				<label class="form-label" for="title">Title</label>
+				<input
+					th:field="${ticket.title}" type="text" name="title" disabled
+					placeholder="Title" class="form-control" th:errorClass="is-invalid">
+				<div>
+					<ul>
+						<li th:each="error : ${#fields.errors('title')}"
+							th:text="${error}"></li>
+					</ul>
+				</div>
+			</div>
+			<div class="col-md-4">
+				<label class="form-label" for="code">Code</label>
+				<input
+					th:field="${ticket.code}" type="text" name="code"
+					placeholder="Ticket Code" class="form-control"
+					th:errorClass="is-invalid" disabled>
+				<div>
+					<ul>
+						<li th:each="error : ${#fields.errors('code')}"
+							th:text="${error}"></li>
+					</ul>
+				</div>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-md-12">
+				<label class="form-label" for="description">Description</label>
+				<textarea rows="3" th:field="${ticket.description}"
+					name="description" placeholder="Description" class="form-control"
+					th:errorClass="is-invalid" disabled>
+				</textarea>
+				<div>
+					<ul>
+						<li th:each="error : ${#fields.errors('description')}"
+							th:text="${error}"></li>
+					</ul>
+				</div>
+			</div>
+		</div>
 
-			<div class="row">
-				<div class="col-md-4">
-					<label class="form-label" for="user">Operator</label>
-		            <select class="form-control" id="user" name="user" th:field="*{user}" disabled>
-						<option value="" disabled selected>Select a user</option>
-			            <option th:each="item : ${operators}" th:value="${item.id}" th:text="${item.profile.getFullName}"></option>
-		            </select>
-					
-					<div>
-						<ul>
-							<li th:each="error : ${#fields.errors('user')}"
-								th:text="${error}"></li>
-						</ul>
-					</div>
-				</div>
-				<div class="col-md-4">
-					<label class="form-label" for="category">Category</label>
-		            <select class="form-control" id="category" name="category" th:field="*{category}" disabled>
-						<option value="" disabled selected>Select category</option>
-			            <option th:each="item : ${categories}" th:value="${item.id}" th:text="${item.name}"></option>
-		            </select>
-					
-					<div>
-						<ul>
-							<li th:each="error : ${#fields.errors('category')}"
-								th:text="${error}"></li>
-						</ul>
-					</div>
-				</div>
-				<div class="col-md-4">
-					<label class="form-label" for="status">Status</label>
-					<select class="form-control" id="status" name="status" th:field="*{status}" disabled>
-						<option value="" disabled selected>Select Ticket Status</option>
-			            <option th:each="item : ${ticketStatus}" th:value="${item}" th:text="${item}"></option>
-		            </select>
-					<div>
-						<ul>
-							<li th:each="error : ${#fields.errors('status')}"
-								th:text="${error}"></li>
-						</ul>
-					</div>
-				</div>
-			</div>
-			<div class="row">
-				<div class="col-md-8">
-					<label class="form-label" for="title">Title</label>
-					<input
-						th:field="${ticket.title}" type="text" name="title" disabled
-						placeholder="Title" class="form-control" th:errorClass="is-invalid">
-					<div>
-						<ul>
-							<li th:each="error : ${#fields.errors('title')}"
-								th:text="${error}"></li>
-						</ul>
-					</div>
-				</div>
-				<div class="col-md-4">
-					<label class="form-label" for="code">Code</label>
-					<input
-						th:field="${ticket.code}" type="text" name="code"
-						placeholder="Ticket Code" class="form-control"
-						th:errorClass="is-invalid" disabled>
-					<div>
-						<ul>
-							<li th:each="error : ${#fields.errors('code')}"
-								th:text="${error}"></li>
-						</ul>
-					</div>
-				</div>
-			</div>
-			<div class="row">
-				<div class="col-md-12">
-					<label class="form-label" for="description">Description</label>
-					<textarea rows="3" th:field="${ticket.description}"
-						name="description" placeholder="Description" class="form-control"
-						th:errorClass="is-invalid" disabled>
-					</textarea>
-					<div>
-						<ul>
-							<li th:each="error : ${#fields.errors('description')}"
-								th:text="${error}"></li>
-						</ul>
-					</div>
-				</div>
-			</div>
-
-			<a th:href="@{|/ticket/edit/${ticket.id}|}" sec:authorize="hasAuthority('ADMIN')"
-				class="btn btn-primary m-2">Edit Ticket</a>
+		<a th:href="@{|/ticket/edit/${ticket.id}|}" sec:authorize="hasAuthority('ADMIN')"
+			class="btn btn-primary m-2">Edit Ticket</a>
 	</div>
 	
 	<div th:replace="~{fragments/fragments :: footer}"></div>

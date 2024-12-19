@@ -31,10 +31,10 @@ public class Profile {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = true)
+    @Column(nullable = true, updatable = false)
     private String firstname;
     
-    @Column(nullable = true)
+    @Column(nullable = true, updatable = false)
     private String lastname;
     
     /*
@@ -46,7 +46,7 @@ public class Profile {
      */
 
     @OneToOne
-    @JoinColumn(name = "user_id", nullable = false)
+    @JoinColumn(name = "user_id", nullable = false, updatable = false)
     private User user;
     
     /*

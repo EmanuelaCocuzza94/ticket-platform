@@ -10,7 +10,6 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
-import it.ticket.platform.model.Role;
 import it.ticket.platform.model.User;
 import it.ticket.platform.repository.UserRepository;
 
@@ -34,6 +33,22 @@ public class UserService implements UserDetailsService {
 			throw new UsernameNotFoundException("Username not found");
 		}
 	}
+    
+    public void updateUserAvailable(Long userId, boolean isAvailable) {
+    	
+    	Optional<User> userOpt = userRepository.findById(userId);
+		
+		if(userOpt.isPresent()) {
+			User user = userOpt.get();
+			
+			user.setAvailable(isAvailable);
+			userRepository.save(user);
+			
+		} else {
+			throw new UsernameNotFoundException("User not found");
+		}
+    	
+    }
     
 //    List<User> findByIsAvailableTrue() {
 //    	return userRepository.findByIsAvailableTrue();

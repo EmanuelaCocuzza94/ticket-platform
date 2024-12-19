@@ -4,14 +4,14 @@
 
 <div th:replace="~{fragments/fragments :: head}"></div>
 
-<title>Tickets</title>
+<title>Create Ticket</title>
 </head>
 
 <body>
 	
 	<div th:replace="~{fragments/navbar :: navbar('ticket')}"></div>
-	<div class="container py-3">Add new Ticket</div>
 	<div class="container py-3">
+		<h2>Create Ticket</h2>
 		<form id="ticket-form" method="post" th:action="@{/ticket/store}"
 			th:object="${ticket}">
 			<input type="hidden" name="createdBy" th:value="${guest.id}" />

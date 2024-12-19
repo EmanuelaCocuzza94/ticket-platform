@@ -14,13 +14,15 @@ import org.springframework.security.web.SecurityFilterChain;
 public class SecurityConfiguration {
 	
 	@Bean
+	public UserService userService() {
+		return new UserService();
+	}
+	
+	@Bean
 	SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 		http.authorizeHttpRequests()
-//			.requestMatchers("/pizza/create", "/pizza/edit/**").hasAuthority("ADMIN")
-//			.requestMatchers(HttpMethod.POST, "/pizza/**").hasAuthority("ADMIN")
-//			.requestMatchers("/ingredients/**").hasAuthority("ADMIN")
-//			.requestMatchers("/pizza/{id}/specialOffers", "/specialOffers/**").hasAuthority("ADMIN")
-			.requestMatchers("/ticket", "/ticket/**").hasAnyAuthority("USER", "ADMIN")
+			.requestMatchers("/ticket/create").hasAuthority("ADMIN")
+			.requestMatchers("/ticket", "/ticket/**").hasAnyAuthority("ADMIN", "OPERATOR")
 			.requestMatchers("/**").permitAll()
 			.and().formLogin().and().logout()
 			.and().exceptionHandling()
@@ -39,22 +41,6 @@ public class SecurityConfiguration {
         return new BCryptPasswordEncoder();
     }
 
-	
-	/*@Bean
-	public PasswordEncoder passwordEncoder() {
-		return PasswordEncoderFactories.createDelegatingPasswordEncoder();
-	}*/
-	
-	@Bean
-	public UserService userService() {
-		return new UserService();
-	}
-	
-//	@Bean
-//	public PasswordEncoder passwordEncod2er() {
-//		return PasswordEncoderFactories.createDelegatingPasswordEncoder();
-//	}
-	
 	@Bean
 	public DaoAuthenticationProvider authenticationProvider() {
 		DaoAuthenticationProvider provider = new DaoAuthenticationProvider();

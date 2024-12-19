@@ -1,0 +1,86 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+
+<div th:replace="~{fragments/fragments :: head}"></div>
+
+<title>Profile</title>
+</head>
+
+<body>
+	
+	<div th:replace="~{fragments/navbar :: navbar('profile')}"></div>
+	<div class="container py-3" th:object="${user}">
+		<h2>Hello, <th:block th:utext="${user.profile.getFullName()}"/></h2>			
+		<div class="row">
+			<div class="col-md-4">
+				<label class="form-label" for="username">Username</label>
+				<input
+					th:field="${user.username}" type="text" name="username" disabled="true"
+					placeholder="Username" class="form-control" th:errorClass="is-invalid">
+				<div>
+					<ul>
+						<li th:each="error : ${#fields.errors('username')}"
+							th:text="${error}"></li>
+					</ul>
+				</div>
+			</div>
+			<div class="col-md-4">
+				<label class="form-label" for="email">Email address</label>
+				<input
+					th:field="${user.email}" type="text" name="email" disabled="true"
+					placeholder="Email address" class="form-control" th:errorClass="is-invalid">
+				<div>
+					<ul>
+						<li th:each="error : ${#fields.errors('email')}"
+							th:text="${error}"></li>
+					</ul>
+				</div>
+			</div>
+			<div class="col-md-4">
+				<label class="form-label" for="user">Role</label>
+	            <select class="form-control" id="role" name="role" th:field="*{role}" disabled="true">
+					<option value="" disabled selected>Select a user</option>
+		            <option th:each="item : ${roles}" th:value="${item}" th:text="${item}"></option>
+	            </select>
+				
+				<div>
+					<ul>
+						<li th:each="error : ${#fields.errors('role')}"
+							th:text="${error}"></li>
+					</ul>
+				</div>
+			</div>
+		</div>
+		<form id="profile-form" method="post" th:action="@{|/users/update-availability|}" >
+			<input type="hidden" th:value="${user.id}" name="id">
+			<div class="row">
+				<div class="col-6">
+					<button class="btn btn-primary" type="submit">Save</button>
+				</div>
+				<div class="col-6" style="text-align: end;">
+					<h5>
+					    <!-- <input th:type="checkbox" th:value="${user.isAvailable}"
+					      th:checked="${user.isAvailable()}" style="width: 25px;height: 25px;"/>
+						<input th:type="checkbox" 
+					  		th:value="${user.isAvailable()}" style="width: 25px;height: 25px;" name="isAvailable">
+							<input type="hidden" value="1" name="_isAvailable">
+						<th:block th:utext="Available"/>-->
+						
+						<input type="hidden" value="true" name="_isAvailable"/>
+						<input class="form-check-input" type="checkbox" 
+								th:id="|_isAvailable|" th:checked="${user.isAvailable()}"
+								name="isAvailable">
+						<label th:for="|_isAvailable|" 
+								th:text="Available" class="form-check-label"></label>
+					</h5>
+				</div>
+			</div>	
+		</form>
+	</div>
+	
+	<div th:replace="~{fragments/fragments :: footer}"></div>
+	
+	<div th:replace="~{fragments/fragments :: scripts}"></div>
+</body>
+</html>

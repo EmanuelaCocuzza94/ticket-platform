@@ -43,17 +43,29 @@ public class TicketController {
 	
 	@GetMapping
 	public String index(@RequestParam(name = "title", required = false) String keyword, 
-			Model model) {
+		Model model, @AuthenticationPrincipal UserDetails currentUser ) {
 		
+		User auth = userRepository.findUserByUsername(currentUser.getUsername());
 		
-		List<Ticket> allTickets;
-		
-		if(keyword != null && !keyword.isBlank()) {
-			model.addAttribute("keyword", keyword);
-			allTickets = ticketRepository.findByTitleContaining(keyword);
-		} else {
-			allTickets = ticketRepository.findAll();
+		List<Ticket> allTickets = null;
+		Role authRole = auth.getRole();
+		Long authId = auth.getId();
+		if(authRole == Role.ADMIN) {
+			if(keyword != null && !keyword.isBlank()) {
+				model.addAttribute("keyword", keyword);
+				allTickets = ticketRepository.findByTitleContaining(keyword);
+			} else {
+				allTickets = ticketRepository.findAll();
+			}
+		} else if(authRole == Role.OPERATOR) {
+			if(keyword != null && !keyword.isBlank()) {
+				model.addAttribute("keyword", keyword);
+				allTickets = ticketRepository.findByUserIdAndTitleContaining(authId, keyword);
+			} else {
+				allTickets = ticketRepository.findByUserId(authId);
+			}
 		}
+		
 		
 		// aggiunge all ticket/index.html le variabili definite in addAttribute;
 		model.addAttribute("tickets", allTickets);

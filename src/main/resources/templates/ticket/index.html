@@ -11,14 +11,12 @@
 
 	<div th:replace="~{fragments/navbar :: navbar('ticket')}"></div>
 	<div class="container py-3">
-		<h1>Home</h1>
-		<h3>View your tickets</h3>
-		
+		<h2>View your Tickets</h2>
 		<table class="table table-striped table-hover">
 			<div class="row">
 				<!-- button create GET-->
-				<div class="col-md-2" sec:authorize="hasAuthority('ADMIN')">
-					<a class="btn btn-success" th:href="@{/ticket/create}">
+				<div class="col-md-2">
+					<a class="btn btn-success" th:href="@{/ticket/create}" sec:authorize="hasAuthority('ADMIN')">
 						<i class="fas fa-plus"></i> Add new Ticket
 					</a>
 				</div>
@@ -71,8 +69,8 @@
 				  <td>
 					<div class="d-flex">
 					<a th:href="@{|/ticket/show/${ticket.id}|}" class="btn btn-primary m-2"><i class="fa-solid fa-eye" aria-label="show"></i></i></a>
-					<a th:href="@{|/ticket/edit/${ticket.id}|}" sec:authorize="hasAuthority('ADMIN')"
-						class="btn btn-primary m-2"><i class="fas fa-edit"></i></a>
+					<a th:href="@{|/ticket/edit/${ticket.id}|}"
+						class="btn btn-primary m-2"><i class="fas fa-edit" sec:authorize="hasAuthority('ADMIN')"></i></a>
 					<form th:action="@{|/ticket/delete/${ticket.id}|}" sec:authorize="hasAuthority('ADMIN')"
 							method="post" class="m-2"> 
 						<button class="btn btn-danger" type="submit" 

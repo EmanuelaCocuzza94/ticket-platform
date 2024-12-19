@@ -28,20 +28,5 @@ public class IndexController {
     private UserService userService;
 
     private final BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-    
-//	// Login utente
-//    @PostMapping("/login")
-//    public ResponseEntity<?> loginUser(@RequestBody User loginRequest) {
-//        User user = userService.findByUsername(loginRequest.getUsername());
-//
-//        if (passwordEncoder.matches(loginRequest.getPassword(), user.getPassword())) {
-//            Map<String, String> response = new HashMap<>();
-//            response.put("message", "Login successful");
-//            response.put("username", user.getUsername());
-//            return ResponseEntity.ok(response);
-//        } else {
-//            return ResponseEntity.status(401).body("Invalid credentials");
-//        }
-//    }
 
 }
